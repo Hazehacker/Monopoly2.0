@@ -132,8 +132,8 @@ public class Service {
             player.setIsSleep(true);
             return ;
         }
-//        【】【】
-//        ()()
+
+//我正在尝试一下使用pullrequest进行分支合并，看下流程和效果
         player.setPosition((player.getPosition()+steps)%lands.size());//移动玩家到新位置
     }
 
