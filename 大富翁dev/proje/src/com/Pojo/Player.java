@@ -3,6 +3,7 @@ package com.Pojo;
 //玩家数据设计
 
 
+import java.util.List;
 import java.util.Objects;
 
 public class Player {
@@ -11,7 +12,7 @@ public class Player {
     private int position; // 当前在地图上的位置
     private int money; //金钱
     private boolean bankruptcy; //判断这个玩家是否已经破产了
-    //private List<Land> properties; // 拥有的地产
+    private List<Land> landOfPlayer; // 拥有的地产
     private CardManager cards;//拥有的卡牌
     private boolean inJail; //判断是否处于在监狱的标志
     private boolean isTurtle; //判断是否中了乌龟卡
@@ -208,8 +209,20 @@ public class Player {
 
 
 
+    public void addLandOfPlayer(Land land) {
+        this.landOfPlayer.add(land);
+    }
 
     //=============================================JavaBean=======================================================
+
+
+    public List<Land> getLandOfPlayer() {
+        return landOfPlayer;
+    }
+
+    public void setLandOfPlayer(List<Land> landOfPlayer) {
+        this.landOfPlayer = landOfPlayer;
+    }
 
     /**
      * 获取

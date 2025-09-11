@@ -20,7 +20,7 @@ public class Service {
     public CardManager cards;
 
     public GameBoard gameBoard;
-    private int boardsize=14;//格子数目
+    private int boardsize=20;//格子数目
     private void useCard(int choice,List<Cards> playerCards,Player player){
         if (choice > 0 && choice <= playerCards.size()) {
             Cards selectedCard = playerCards.get(choice - 1);
@@ -67,29 +67,36 @@ public class Service {
     }
 
 
-    /** 摇筛子
+    /** 摇骰子
      难度：*
-     负责人：易铭豪
+     负责人：
      功能：返回一个1~6随机整数
      **/
     public static int rollDice() {
+        try {
+            // 让线程暂停500毫秒
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            // 如果线程被中断，打印堆栈跟踪
+            e.printStackTrace();
+        }
         int i = (int)(Math.random()*6);
         return i + 1;
     }
 
 
-    /** 处理玩家行动
+    /** 补充函数
      难度： ***
-     负责人：冯国强
-     功能：处理玩家行动
+     负责人：
+     功能：处理玩家行动，被handlePlayerAction调用
      1. 移动玩家到新位置
      2. 处理地块事件  handleLandEvent
      3. 处理卡牌事件 handleCardEvent
      **/
 
     public void handlePlayerAction1(Player player, int steps) {
-//        【】【】没写路障卡的逻辑
-        //【】【】没处理休眠、破产等
+//        【】【】写路障卡的逻辑
+        //【】【】处理休眠、破产等
         if (player.isInJail()) {
 
             if (player.outJailNum > 0) {
@@ -105,7 +112,7 @@ public class Service {
                 }
             } else {
                 System.out.println(player.getName() + " 被关在监狱中，无法移动！");
-//                player.setInJail(true);//()
+                player.setInJail(true);//()
 //                ()
                 return ;
 //                ()
@@ -122,6 +129,7 @@ public class Service {
         }
         if(player.isIsSleep()){
             System.out.println("该玩家还在休眠，不能移动");
+            player.setIsSleep(true);
             return ;
         }
 //        【】【】
@@ -132,9 +140,9 @@ public class Service {
 
 
    /**
-      处理地块事件
+      处理
       难度：**
-      负责人：罗诗锐
+      负责人：
     **/
 
     public void handlePlayerAction(Player player, int steps,Service service) {
@@ -151,7 +159,7 @@ public class Service {
             return ;
         }
 
-        //        【】【】
+        // 【】【】处理移动玩家位置的逻辑
         handlePlayerAction1(player,steps);
         //        【】【】
 
@@ -187,10 +195,7 @@ public class Service {
                     player.setMoney(player.getMoney()-20);
                 }
                 case COMMUNITY_CHEST ->handleCardEvent(player,service.cards.drawCommunityChestCard());
-                case TAX -> {
-                    System.out.println("到达收税所，你需要支付一笔税收,减少了"+player.getMoney()/10+"元");
-                    player.setMoney((player.getMoney()/10)*9);
-                }
+
                 case UTILITY -> service.handleLandEvent(player, templand);
             }
         }
@@ -200,20 +205,24 @@ public class Service {
     /**
      处理地块事件
      难度：**
-     负责人：董子铭
+     负责人：
      * 功能：处理车站事件
      *
      * */
     private void handleStation(Player player) {
         Land templand=gameBoard.getLandById(player.getPosition());
-        if (templand.getId()==9) {
-            System.out.println("你到达了上海站,传送到上海大饭店");
-            player.setPosition(13);
-        }
-        else if (templand.getId()==3) {
-            System.out.println("你到达了火车站,请输入你想前进多少步");
-            Scanner sc=new Scanner(System.in);
-            player.move(sc.nextInt(),boardsize);
+        System.out.println("你到达了火车站,");
+        if (templand.getId()==3) {
+            while (true) {
+                System.out.print("请输入你想前进多少步:");
+                Scanner sc=new Scanner(System.in);
+                Integer foot = (Integer)(sc.nextInt());
+                if(foot>0){
+                    player.move(foot,boardsize);
+                }else{
+                    System.out.println("真男人从不回头，请重新输入步数");
+                }
+            }
         }
 
     }
@@ -262,9 +271,9 @@ public class Service {
 
 
     /**
-     处理地块事件
+     处理地块购买或过路费
      难度：**
-     负责人：罗诗锐
+     负责人：
 >>>>>>> e49a326f50bd92cfd187ee68b798ab9db981a621
      * 功能：处理地块事件
      * 先判断这个地块的拥有者是谁，null就是没有人，不是null就是别的玩家
@@ -287,6 +296,94 @@ public class Service {
                 if (player.getMoney() >= land.getPrice()) {
                     player.setMoney(player.getMoney() - land.getPrice());
                     land.setOwner(player);
+                    player.addLandOfPlayer(land);
+
+
+                    //【连携逻辑】如果玩家已经买过这个系列的，则这个系列其他玩家路过时的过路费增加
+                    //拉曼却领 系列连携
+                    if(land.getId() == 1){
+                        Land anotherLand = gameBoard.getLandById(11);
+                        if(player.getLandOfPlayer().contains(anotherLand)){
+                            land.setRent(land.getRent()+50);//[过路费加倍]
+                        }
+                    }
+                    if(land.getId() == 11){
+                        Land anotherLand = gameBoard.getLandById(1);
+                        if(player.getLandOfPlayer().contains(anotherLand)){
+                            land.setRent(land.getRent()+50);//[过路费加倍]
+                        }
+                    }
+
+
+
+                    //Cafe Stella 系列连携
+                    if(land.getId() == 4){
+                        Land anotherLand = gameBoard.getLandById(14);
+                        if(player.getLandOfPlayer().contains(anotherLand)){
+                            land.setRent(land.getRent()+50);//[过路费加倍]
+                        }
+                    }
+                    if(land.getId() == 14){
+                        Land anotherLand = gameBoard.getLandById(4);
+                        if(player.getLandOfPlayer().contains(anotherLand)){
+                            land.setRent(land.getRent()+50);//[过路费加倍]
+                        }
+                    }
+
+
+
+                    //巨人 系列连携（3）
+                    // 巨人 系列连携（3个地皮，id分别为5/7/9）
+                    if (land.getId() == 5) {
+                        Land anotherLand1 = gameBoard.getLandById(7);
+                        Land anotherLand2 = gameBoard.getLandById(9);
+                        if (player.getLandOfPlayer().contains(anotherLand1) && player.getLandOfPlayer().contains(anotherLand2)) {
+                            land.setRent(land.getRent() + 50); // [过路费加倍]
+                        }
+                    } else if (land.getId() == 7) {
+                        Land anotherLand1 = gameBoard.getLandById(5);
+                        Land anotherLand2 = gameBoard.getLandById(9);
+                        if (player.getLandOfPlayer().contains(anotherLand1) && player.getLandOfPlayer().contains(anotherLand2)) {
+                            land.setRent(land.getRent() + 50); // [过路费加倍]
+                        }
+                    } else if (land.getId() == 9) {
+                        Land anotherLand1 = gameBoard.getLandById(5);
+                        Land anotherLand2 = gameBoard.getLandById(7);
+                        if (player.getLandOfPlayer().contains(anotherLand1) && player.getLandOfPlayer().contains(anotherLand2)) {
+                            land.setRent(land.getRent() + 50); // [过路费加倍]
+                        }
+                    }
+
+
+
+
+
+                    //下北泽 系列连携
+
+                    if (land.getId() == 15) {
+                        Land anotherLand1 = gameBoard.getLandById(17);
+                        Land anotherLand2 = gameBoard.getLandById(19);
+                        if (player.getLandOfPlayer().contains(anotherLand1) && player.getLandOfPlayer().contains(anotherLand2)) {
+                            land.setRent(land.getRent() + 50); // [过路费加倍]
+                        }
+                    } else if (land.getId() == 17) {
+                        Land anotherLand1 = gameBoard.getLandById(15);
+                        Land anotherLand2 = gameBoard.getLandById(19);
+                        if (player.getLandOfPlayer().contains(anotherLand1) && player.getLandOfPlayer().contains(anotherLand2)) {
+                            land.setRent(land.getRent() + 50); // [过路费加倍]
+                        }
+                    } else if (land.getId() == 19) {
+                        Land anotherLand1 = gameBoard.getLandById(15);
+                        Land anotherLand2 = gameBoard.getLandById(17);
+                        if (player.getLandOfPlayer().contains(anotherLand1) && player.getLandOfPlayer().contains(anotherLand2)) {
+                            land.setRent(land.getRent() + 50); // [过路费加倍]
+                        }
+                    }
+
+
+
+
+
                     System.out.println(player.getName()+"成功购买了地块 " + land.getName());
                     System.out.println(player.getName()+"剩余金钱：" + player.getMoney());
                 } else {
@@ -361,7 +458,7 @@ public class Service {
 
     /**
      难度：**
-     负责人：冯国强
+     负责人：
      功能：处理卡牌事件
      参数一： player 玩家
      参数二： card 卡牌
@@ -485,12 +582,18 @@ public class Service {
     }
     //休眠卡
     private void method7(Player player) {
-        System.out.println("请输入要被施加休眠卡玩家的ID：");
-        int targetId = sc.nextInt();
-        Player target = players.stream().filter(p -> p.getId() == targetId).findFirst().orElse(null);
-        if (target != null) {
-            target.setIsSleep(true);
-            target.setSleepCount(target.getSleepCount() + 1);
+        while (true) {
+            System.out.println("请输入要被施加休眠卡玩家的ID：");
+            int targetId = sc.nextInt();
+            Player target = players.stream().filter(p -> p.getId() == targetId).findFirst().orElse(null);
+            if (target != null) {
+                target.setIsSleep(true);
+                target.setSleepCount(target.getSleepCount() + 1);
+                break;
+            }else{
+                System.out.println("玩家不存在，请重新输入");
+
+            }
         }
 
     }

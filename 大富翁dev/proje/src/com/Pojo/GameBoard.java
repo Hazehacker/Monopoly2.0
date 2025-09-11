@@ -33,7 +33,7 @@ public class GameBoard {
 
     /**
      * 难度：**
-     * 负责人：曹宇轩
+     * 负责人：
      * 初始化所有地块
      */
     public List<Land> initializeLands() {
@@ -41,22 +41,25 @@ public class GameBoard {
         // 例如：起点、地产、车站、机会卡、命运卡等
         // 基础地块
         this.lands.add(new  Land(0, "起点", LandType.START, 0, 0, null));
-        this.lands.add(new  Land(1, "图灵院", LandType.PROPERTY, 275,55 , null));
-        this.lands.add(new  Land(2, "东方文华", LandType.PROPERTY, 150, 30, null));
-        this.lands.add(new  Land(3, "火车站", LandType.STATION, 0, 0, null));
-        this.lands.add(new  Land(4, "命运卡", LandType.COMMUNITY_CHEST, 0, 0, null));
-        this.lands.add(new  Land(5, "电力公司", LandType.UTILITY, 150, 30, null));
-        this.lands.add(new  Land(6, "监狱", LandType.JAIL, 0, 0, null));
-        this.lands.add(new  Land(7, "香榭丽舍", LandType.PROPERTY, 200, 40, null));
+        this.lands.add(new  Land(1, "拉·曼却领", LandType.PROPERTY, 275,55 , null));
+        this.lands.add(new  Land(2, "中南大学", LandType.UTILITY, 0, 30, null));
+        this.lands.add(new  Land(3, "命运卡", LandType.COMMUNITY_CHEST, 0, 0, null));
+        this.lands.add(new  Land(4, "Cafe Stella", LandType.PROPERTY, 300, 0, null));
+        this.lands.add(new  Land(5, "玛利亚之墙", LandType.UTILITY, 150, 30, null));
+        this.lands.add(new  Land(6, "火车站", LandType.STATION, 0, 0, null));
+        this.lands.add(new  Land(7, "罗塞之墙", LandType.PROPERTY, 300, 40, null));
         this.lands.add(new  Land(8, "机会卡", LandType.CHANCE, 0, 0, null));
-        this.lands.add(new  Land(9, "上海站", LandType.STATION, 200, 45, null));
-        this.lands.add(new  Land(10, "所得税", LandType.TAX, 0, 200, null));
-        this.lands.add(new  Land(11, "免费停车场", LandType.FREE_PARKING, 0, 0, null));
-        this.lands.add(new  Land(12, "免费停车场", LandType.FREE_PARKING, 0, 0, null));
-        this.lands.add(new  Land(13, "免费停车场", LandType.FREE_PARKING, 0, 0, null));
-        this.lands.add(new  Land(12, "香港都市花园", LandType.PROPERTY, 175, 25, null));
-        this.lands.add(new  Land(13, "上海大酒店", LandType.PROPERTY, 225, 45, null));
-        this.lands.add(new  Land(14, "北京和平饭店", LandType.PROPERTY, 250, 50, null));
+        this.lands.add(new  Land(9, "希娜之墙", LandType.PROPERTY, 300, 45, null));
+        this.lands.add(new  Land(10, "监狱", LandType.JAIL, 0, 200, null));
+        this.lands.add(new  Land(11, "鸿园", LandType.PROPERTY, 300, 0, null));
+        this.lands.add(new  Land(12, "湖南大学", LandType.UTILITY, 0, 0, null));
+        this.lands.add(new  Land(13, "机会卡", LandType.CHANCE, 300, 45, null));
+        this.lands.add(new  Land(14, "穗织", LandType.PROPERTY, 300, 50, null));
+        this.lands.add(new  Land(15, "下北泽", LandType.PROPERTY, 300, 50, null));
+        this.lands.add(new  Land(16, "停车场", LandType.FREE_PARKING, 0, 50, null));
+        this.lands.add(new  Land(17, "飞鸟山公园", LandType.PROPERTY, 250, 50, null));
+        this.lands.add(new  Land(18, "命运卡", LandType.COMMUNITY_CHEST, 250, 50, null));
+        this.lands.add(new  Land(19, "吉野家", LandType.PROPERTY, 250, 50, null));
 
 
         this.size  = lands.size();  // 同步更新地图尺寸
@@ -66,7 +69,7 @@ public class GameBoard {
 
     /**
      * 难度：**
-     * 负责人：曹宇轩
+     * 负责人：
      * 根据ID获取地块
      * 参数： id 地块ID
      * 返回值： 对应的地块对象，找不到返回null
@@ -83,7 +86,7 @@ public class GameBoard {
 
     /**
      * 难度：**
-     * 负责人：曹宇轩
+     * 负责人：
      * 获取当前地块的下一个地块
      * 参数： currentLand 当前地块
      * 返回值： 下一个地块对象
