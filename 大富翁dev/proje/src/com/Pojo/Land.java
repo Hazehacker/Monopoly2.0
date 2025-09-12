@@ -88,7 +88,6 @@ public class Land {
      */
     public boolean isPurchasable() {
         return (type == LandType.PROPERTY
-                || type == LandType.STATION
                 || type == LandType.UTILITY)&&
                 owner == null;
     }
@@ -102,7 +101,7 @@ public class Land {
     //3. 地块没所有者（owner==null） 或者 地块的所有者是当前玩家
     public boolean canBuildHouse(Player currentPlayer) {
         return type == LandType.PROPERTY
-                && houseCount < 4
+                && houseCount <=4
                 && (owner == null || owner == currentPlayer);
     }
 

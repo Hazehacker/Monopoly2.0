@@ -42,23 +42,23 @@ public class GameBoard {
         // 基础地块
         this.lands.add(new  Land(0, "起点", LandType.START, 0, 0, null));
         this.lands.add(new  Land(1, "拉·曼却领", LandType.PROPERTY, 275,55 , null));
-        this.lands.add(new  Land(2, "中南大学", LandType.UTILITY, 0, 30, null));
+        this.lands.add(new  Land(2, "中南大学", LandType.PROPERTY, 300, 30, null));
         this.lands.add(new  Land(3, "命运卡", LandType.COMMUNITY_CHEST, 0, 0, null));
-        this.lands.add(new  Land(4, "Cafe Stella", LandType.PROPERTY, 300, 0, null));
-        this.lands.add(new  Land(5, "玛利亚之墙", LandType.UTILITY, 150, 30, null));
+        this.lands.add(new  Land(4, "Cafe Stella", LandType.PROPERTY, 300, 50, null));
+        this.lands.add(new  Land(5, "玛利亚之墙", LandType.PROPERTY, 150, 30, null));
         this.lands.add(new  Land(6, "火车站", LandType.STATION, 0, 0, null));
         this.lands.add(new  Land(7, "罗塞之墙", LandType.PROPERTY, 300, 40, null));
         this.lands.add(new  Land(8, "机会卡", LandType.CHANCE, 0, 0, null));
         this.lands.add(new  Land(9, "希娜之墙", LandType.PROPERTY, 300, 45, null));
         this.lands.add(new  Land(10, "监狱", LandType.JAIL, 0, 200, null));
-        this.lands.add(new  Land(11, "鸿园", LandType.PROPERTY, 300, 0, null));
-        this.lands.add(new  Land(12, "湖南大学", LandType.UTILITY, 0, 0, null));
-        this.lands.add(new  Land(13, "机会卡", LandType.CHANCE, 300, 45, null));
+        this.lands.add(new  Land(11, "鸿园", LandType.PROPERTY, 300, 50, null));
+        this.lands.add(new  Land(12, "湖南大学", LandType.PROPERTY, 300, 50, null));
+        this.lands.add(new  Land(13, "机会卡", LandType.CHANCE, 0, 0, null));
         this.lands.add(new  Land(14, "穗织", LandType.PROPERTY, 300, 50, null));
         this.lands.add(new  Land(15, "下北泽", LandType.PROPERTY, 300, 50, null));
         this.lands.add(new  Land(16, "停车场", LandType.FREE_PARKING, 0, 50, null));
         this.lands.add(new  Land(17, "飞鸟山公园", LandType.PROPERTY, 250, 50, null));
-        this.lands.add(new  Land(18, "命运卡", LandType.COMMUNITY_CHEST, 250, 50, null));
+        this.lands.add(new  Land(18, "命运卡", LandType.COMMUNITY_CHEST, 0, 0, null));
         this.lands.add(new  Land(19, "吉野家", LandType.PROPERTY, 250, 50, null));
 
 

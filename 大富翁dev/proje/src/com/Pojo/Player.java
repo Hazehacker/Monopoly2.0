@@ -3,6 +3,7 @@ package com.Pojo;
 //玩家数据设计
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -10,16 +11,16 @@ public class Player {
     private int id;  //玩家id
     private String name; //玩家名字
     private int position; // 当前在地图上的位置
-    private int money; //金钱
-    private boolean bankruptcy; //判断这个玩家是否已经破产了
-    private List<Land> landOfPlayer; // 拥有的地产
-    private CardManager cards;//拥有的卡牌
+    private double money; //金钱
+    private boolean bankruptcy; //判断这个玩家是否已经破产了【这个是多余的属性】
+    private List<Land> landOfPlayer = new ArrayList<>(); // 拥有的地产
+    private CardManager cards;//拥有的卡牌//【实际上不是用这个属性来存储player对象的卡牌，它主要被service使用初始化牌堆】
     private boolean inJail; //判断是否处于在监狱的标志
     private boolean isTurtle; //判断是否中了乌龟卡
     private int picId;//玩家的立绘id
 
 
-    private int TurtleCount; //乌龟卡的残余次数
+    private int TurtleCount; //玩家身上乌龟卡效果的残余次数（被其他玩家所施加）
     private int TurtleNum; //乌龟卡的数量
     public int outJailNum; //出监狱卡的数量
     private int SleepNum; //睡眠卡的数量
@@ -40,6 +41,7 @@ public class Player {
         this.position = position;
         this.money = money;
         this.bankruptcy = bankruptcy;
+
         this.inJail = inJail;
         this.isTurtle = isTurtle;
         this.TurtleCount = TurtleCount;
@@ -54,6 +56,8 @@ public class Player {
         this.cards = cards;
         this.picId=picId;
     }
+
+
 
 
     /*
@@ -172,7 +176,7 @@ public class Player {
                 false->没有
      */
     public boolean breakMoney() {
-        if (getMoney() <= 0) {
+        if (getMoney() < 0) {
             return true;
         } else {
             return false;
@@ -212,7 +216,7 @@ public class Player {
 
 
     public void addLandOfPlayer(Land land) {
-        this.landOfPlayer.add(land);
+        landOfPlayer.add(land);
     }
 
     //=============================================JavaBean=======================================================
@@ -278,7 +282,7 @@ public class Player {
      * 获取
      * @return money
      */
-    public int getMoney() {
+    public double getMoney() {
         return money;
     }
 
@@ -286,7 +290,7 @@ public class Player {
      * 设置
      * @param money
      */
-    public void setMoney(int money) {
+    public void setMoney(double money) {
         this.money = money;
     }
 
