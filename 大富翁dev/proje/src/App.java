@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 public class App extends Application {
 
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage)throws Exception {
         // 启动音乐线程
         new Thread(() -> {
             MusicPlayer.MusicServer musicServer = new MusicPlayer.MusicServer();
@@ -19,11 +19,12 @@ public class App extends Application {
         }).start();
 
         // 初始化游戏和界面
-        Game game = new Game();
-        GUI gui = new GUI(game);
+        GUI gui = new GUI(null);
+        Game game = new Game(gui,gui);
+        gui.setGame(game);
         // 将JavaFX的Stage传递给GUI（需要在GUI中添加对应的setter方法）
         gui.setPrimaryStage(primaryStage);
-        gui.showWelcomeMessage();
+        gui.showVideoSplash();
         //设置程序图标
         gui.loadAndSetIcon(primaryStage);
 
@@ -35,4 +36,3 @@ public class App extends Application {
         launch(args);
     }
 }
-
